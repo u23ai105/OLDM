@@ -20,4 +20,10 @@ source venv/bin/activate
 
 # Set environment variables
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-python -m src.pipeline.flows --input "$1"
+# 1. Download model weights (skips if already downloaded)
+echo "Ensuring all AI model weights are downloaded..."
+python scripts/download_weights.py
+
+# 2. Run the full production pipeline
+echo "Starting pipeline for video: $1"
+python -m src.pipeline.flows "$1"
