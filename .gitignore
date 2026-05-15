@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Project specific
+.env
+data/
+weights/
+logs/
+*.mp4
+*.mkv
+*.avi
+results/
+
+# Prefect
+.prefect/
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+#codes 
+train.sh
