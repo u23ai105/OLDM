@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH --job-name=MM-gpu
-
 #SBATCH --partition=gpu
 #SBATCH --nodelist=node2
-#SBATCH --error=/home/pkc/MM/SAMEG-Polyp-Segmentation/dataset/TestDataset/logs/test_gpu_error_dataset_downloader_%j.log
-#SBATCH --output=/home/pkc/MM/SAMEG-Polyp-Segmentation/dataset/TestDataset/logs/test_gpu_job_output_dataset_downloader_%j.log
+# Use relative paths for logs so it works dynamically on any HPC system
+#SBATCH --error=slurm-%j.err
+#SBATCH --output=slurm-%j.out
 #SBATCH --gres=shard:20
 #SBATCH --mem=32G
 #SBATCH --time=24:00:00
@@ -18,8 +18,10 @@ module load ffmpeg
 
 source venv/bin/activate
 pip install -r requirements.txt
-# Set environment variables
+
+# Set environment variables relative to the current directory
 export PYTHONPATH=$PYTHONPATH:$(pwd)
+
 # 1. Download model weights (skips if already downloaded)
 echo "Ensuring all AI model weights are downloaded..."
 python scripts/download_weights.py
