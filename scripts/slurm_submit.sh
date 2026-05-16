@@ -20,16 +20,22 @@ source venv/bin/activate
 pip install -r requirements.txt
 # Set environment variables
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-# 1. Download the movie (skips if already downloaded)
-echo "Ensuring sample movie is downloaded..."
-bash scripts/download_movie.sh
-
-# 2. Download model weights (skips if already downloaded)
+# 1. Download model weights (skips if already downloaded)
 echo "Ensuring all AI model weights are downloaded..."
 python scripts/download_weights.py
 
-# Determine the input video (use argument if provided, else use default downloaded movie)
-INPUT_VIDEO=${1:-data/raw/night_of_the_living_dead.mp4}
+# 2. Handle Movie Input (Download default if none provided)
+INPUT_VIDEO="$1"
+if [ -z "$INPUT_VIDEO" ]; then
+    echo "No input video provided. Downloading default movie (Night of the Living Dead)..."
+    mkdir -p data/raw
+    INPUT_VIDEO="data/raw/night_of_the_living_dead.mp4"
+    wget --continue -q --show-progress \
+        -O "$INPUT_VIDEO" \
+        https://archive.org/download/Night_Of_The_Living_Dead_raw_HD_WS/Night_Of_The_Living_Dead_raw_HD_WS.mp4
+else
+    echo "Using provided input video: $INPUT_VIDEO"
+fi
 
 # 3. Run the full production pipeline
 echo "Starting pipeline for video: $INPUT_VIDEO"
