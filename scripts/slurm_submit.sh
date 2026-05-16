@@ -17,13 +17,20 @@ module load cuda-12.8
 module load ffmpeg
 
 source venv/bin/activate
-
+pip install -r requirements.txt
 # Set environment variables
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-# 1. Download model weights (skips if already downloaded)
+# 1. Download the movie (skips if already downloaded)
+echo "Ensuring sample movie is downloaded..."
+bash scripts/download_movie.sh
+
+# 2. Download model weights (skips if already downloaded)
 echo "Ensuring all AI model weights are downloaded..."
 python scripts/download_weights.py
 
-# 2. Run the full production pipeline
-echo "Starting pipeline for video: $1"
-python -m src.pipeline.flows "$1"
+# Determine the input video (use argument if provided, else use default downloaded movie)
+INPUT_VIDEO=${1:-data/raw/night_of_the_living_dead.mp4}
+
+# 3. Run the full production pipeline
+echo "Starting pipeline for video: $INPUT_VIDEO"
+python -m src.pipeline.flows "$INPUT_VIDEO"
