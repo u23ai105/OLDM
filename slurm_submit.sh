@@ -3,9 +3,8 @@
 #SBATCH --job-name=MM-gpu
 #SBATCH --partition=gpu
 #SBATCH --nodelist=node2
-# Use relative paths for logs so it works dynamically on any HPC system
-#SBATCH --error=slurm-%j.err
-#SBATCH --output=slurm-%j.out
+#SBATCH --error=/home/pkc/MM/SAMEG-Polyp-Segmentation/dataset/TestDataset/logs/test_gpu_error_dataset_downloader_%j.log
+#SBATCH --output=/home/pkc/MM/SAMEG-Polyp-Segmentation/dataset/TestDataset/logs/test_gpu_job_output_dataset_downloader_%j.log
 #SBATCH --gres=shard:20
 #SBATCH --mem=32G
 #SBATCH --time=24:00:00
@@ -15,6 +14,12 @@ cd $SLURM_SUBMIT_DIR
 module load anaconda3-2024.2  
 module load cuda-12.8
 module load ffmpeg
+
+# Create virtual environment if it doesn't exist
+if [ ! -d "venv" ]; then
+    echo "Creating virtual environment..."
+    python -m venv venv
+fi
 
 source venv/bin/activate
 pip install -r requirements.txt
