@@ -7,7 +7,7 @@ pydantic-settings==2.1.0
 # Workflow & Task Queue
 prefect==2.16.0
 prefect-sqlalchemy==0.4.1
-prefect-redis==0.1.1
+prefect-redis==0.2.11
 
 # Database
 sqlalchemy==2.0.27
